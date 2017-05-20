@@ -4,7 +4,7 @@ from forms import SignupForm, LoginForm, AddressForm
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/flask'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://localhost/sandbox'
 #app.config['SQLAlchemy_DATABASE_URI'] = 'mysql://relee:localhost@localhost/flask'
 db.init_app(app)
 
