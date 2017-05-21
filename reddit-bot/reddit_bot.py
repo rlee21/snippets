@@ -15,9 +15,17 @@ def bot_login():
 
 def run_bot(reddit, v_subreddit):
     print("Obtaining 25 submissions for {0}...".format(v_subreddit))
+    #submissions = reddit.subreddit(v_subreddit).hot(limit=1)
     submissions = reddit.subreddit(v_subreddit).hot(limit=25)
-    for nbr, submission in enumerate(submissions):
-        print(nbr + 1, submission.title)
+    for submission in submissions:
+    #for nbr, submission in enumerate(submissions):
+        #print(nbr + 1, submission.title)
+        print(submission.title)
+        #print(submission.selftext)
+        #print("Title: ".format(submission.title))
+        #print("Body: ".format(submission.selftext))
+
+
 
 
 
