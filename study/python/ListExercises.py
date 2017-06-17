@@ -72,21 +72,47 @@ that the array is length 3 or more.
 def solution4(input):
     results = []
     input_sorted = sorted(input)
-    print(input_sorted)
+    # print(input_sorted)
     #for i in range(1, 5):
-    for i in range(1,len(input_sorted) - 1):
+    for i in range(1, len(input_sorted) - 1):
         results.append(input_sorted[i])
-    print(results)
-    value = len(results) / 2
-    print(type(value))
-    print(value)
-    if value == float(value):
-        return results[int(value)]
+    # print(results)
+    value = len(results) % 2
+    # value = len(results) / 2
+    # print(type(value))
+    # print(value)
+    if value == 0:
+        return int((results[value - 1] + results[value]) / 2)
     else:
-        return (results[value -1] + results[value]) / 2
+        return results[int(value)]
+    # if value == float(value):
+    #     return results[int(value)]
+    # else:
+    #     return (results[value -1] + results[value]) / 2
     #output = results[position]
 
     #return output 
+
+"""
+Write a function that takes list and returns element that that occurs more than once
+"""
+
+### sudo code ###
+# create empty dict called output
+# iterate thru list and add/update item and count to dict
+# iterate thru dict where value is greater than 1
+
+def solution5(input):
+    my_dict = {}
+    for i in input:
+        if i in my_dict:
+            my_dict[i] += 1
+        else:
+            my_dict[i] = 1
+
+    output = [k for k, v in my_dict.items() if v > 1]
+
+    return output
 
 
 
@@ -100,7 +126,9 @@ if __name__ == "__main__":
     #nbr = 123
     #nbr = 400
     #print(solution3(nbr))
-    #list3 = [1, 2, 3, 4, 100]
+    # list3 = [1, 2, 3, 4, 100]
     #list3 = [1, 1, 5, 5, 10, 8, 7]
-    list3 = [-10, -4, -2, -4, -2, 0]
-    print(solution4(list3))
+    # list3 = [-10, -4, -2, -4, -2, 0]
+    # print(solution4(list3))
+    list4 = [-10, -4, -2, -4, -2, -10]
+    print(solution5(list4))
