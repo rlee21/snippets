@@ -10,8 +10,8 @@ def get_weather(zip_code):
     units = 'imperial'
     country_code = 'us'
     with open('secret.json', 'r') as f:
-        auth = json.load(f)
-        api_key = auth['api_key']
+        secret = json.load(f)
+        api_key = secret['api_key']
 
     url = 'http://api.openweathermap.org/data/2.5/weather?zip='+zip_code+','+country_code+'&units='+units+'&mode='+mode+ \
           '&appid='+api_key+''
