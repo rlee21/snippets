@@ -2,22 +2,19 @@ import json
 import requests
 from pprint import pprint
 
+
 # TODO: use argparse
 # TODO: get 5-day forecast
-
-
 def get_weather(zip_code):
     mode = 'json'
     units = 'imperial'
     country_code = 'us'
     with open('secret.json', 'r') as f:
         auth = json.load(f)
-        #pprint(api_key) 
         api_key = auth['api_key']
 
     url = 'http://api.openweathermap.org/data/2.5/weather?zip='+zip_code+','+country_code+'&units='+units+'&mode='+mode+ \
           '&appid='+api_key+''
-    #pprint(url)
     get = requests.get(url)
     response = get.json()
     #pprint(response)
@@ -29,6 +26,6 @@ def get_weather(zip_code):
 
 
 if __name__ == '__main__':
-    #zip_code = input('Enter Zip Code: ')
-    zip_code = '98106'
+    zip_code = input('Enter Zip Code: ')
+    #zip_code = '98106'
     print(get_weather(zip_code))
