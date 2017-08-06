@@ -1,2 +1,0 @@
-1) In arduino's IDE, set board to UNO and port to /dev/ttyACM0
-2) sudo chmod a+rw /dev/ttyACM0

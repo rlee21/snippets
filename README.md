@@ -1,3 +1,3 @@
-# MiscProjects
+# snippets
 
-Miscellaneous Projects
+code snippets
