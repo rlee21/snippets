@@ -1,6 +1,6 @@
 CREATE OR REPLACE PROCEDURE FINANCE_STAGING.emailAlert (mess in varchar2, etype in number) 
 as
-    mailhost    varchar2(64) := 'mailhost.light.ci.seattle.wa.us';
+    mailhost    varchar2(64) := 'mailhost.xxxxxx.xx.xxxxxx.xx.xx';
     mailfrom    varchar2(64) := 'finance_staging@EPMSTAGP';
     mailto      varchar2(64);
     mailconn    utl_smtp.connection;
