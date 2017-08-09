@@ -1,0 +1,116 @@
+/* anonymous block */
+declare
+v_rows_affected number;
+v_err_no varchar2(300);
+v_err_msg varchar2(500);
+
+begin
+update table set column = column * 0.12;
+
+v_rows_affected := sql%rowcount;
+
+commit;
+
+exception 
+when others then
+v_err_no := sqlcode;
+v_err_msg := sqlerrm;
+dbms_output.put_line('Failure: '||v_err_no||v_err_msg);
+
+end;
+/
+
+/* explicit cursor */
+declare
+vname varchar2(40);
+cursor empcur is 
+select first_name from employees
+where salary > 12000;
+begin
+open empcur;
+loop
+fetch empcur into vname;
+exit when empcur%notfound;
+dbms_output.put_line(vname);
+end loop;
+close empcur;
+end;
+/
+
+/* implicit cursor */
+begin
+delete rom emp where deptno = 10;
+if sql%notfound then 
+dbms_output.put_line('row not found - delete failed';
+else
+dbms_output.put_line(sql%rowcount || 'rows deleted');
+end if;
+end;
+/
+
+/* simple loop */
+declare
+i integer := 0;
+begin
+loop
+i:= i+1;
+dbms_output.put_line('The index value is '|| i);
+exit when i >= 10;
+end loop;
+end;
+/
+
+/* while loop */
+declare
+i integer :=1;
+begin
+while i <= 10
+loop
+dbms_output.put_line('The index value is '|| i);
+i := i + 1;
+end loop;
+end;
+/
+
+
+/* for loop */
+declare
+i integer :=1;
+begin
+for i in 1..10
+loop
+dbms_output.put_line('The index value is '|| i);
+end loop;
+end;
+/
+
+/* cursor for loop */
+declare
+i integer :=1;
+begin 
+for i in (select surname from employees where depid = 2)
+loop
+dbms_output.put_line ('Department ' || i ||' surname');
+end loop;
+end;
+/
+
+/* function */
+create or replace function cubed (number_in in integeter)
+return varchar2 AS 
+begin
+return number_in*number_in;
+end cubed;
+/
+
+/* procedure */
+create or replace procedure cubed (number_in in integeter) AS 
+begin
+return number_in*number_in;
+end cubed;
+/
+
+/* dbms utility for error handling */
+dbms_utility.format_call_stack;
+dbms_utility.format_error_stack;
+dbms_utility.format_error_backtrace;

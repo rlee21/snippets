@@ -1,0 +1,56 @@
+CREATE OR REPLACE PACKAGE DM_OBR.OBR_LOAD AS
+
+/******************************************************************************
+   NAME:       OBR_LOAD
+   PURPOSE:
+   REVISIONS:
+
+   Ver         Date                 Author        Description
+   ---------  ----------            -----------     ------------------------------------
+
+******************************************************************************/
+
+PROCEDURE RUN_OBR_LOAD;
+
+PROCEDURE START_OBR_LOAD;
+
+PROCEDURE WC_ITEM_MASTER_D_LOAD;
+
+PROCEDURE WC_OBRDEP_D_LOAD;
+
+PROCEDURE WC_SHIP_SCHED_D_LOAD;
+
+PROCEDURE WC_OBRVOYAGE_D_LOAD;
+
+PROCEDURE WC_EPO_D_LOAD;
+
+PROCEDURE WC_OBRPAX_D_LOAD;
+
+PROCEDURE WC_SHOREX_D_LOAD;
+
+PROCEDURE WC_SHOREX_F_LOAD;
+
+PROCEDURE WC_SHOREX_MARGIN_F_LOAD;
+
+PROCEDURE WC_SHOREX_PAX_F_LOAD;
+
+PROCEDURE WC_OBRTXN_F_LOAD;
+
+PROCEDURE WC_OBRREV_A_LOAD;
+
+PROCEDURE WC_VOYPAX_F_LOAD;
+
+PROCEDURE WC_OBRTGT_F_HAL_LOAD;
+
+PROCEDURE WC_OBRTGT_F_SBN_LOAD;
+
+PROCEDURE WC_ITEM_TXN_F_LOAD;
+
+PROCEDURE WC_PAXLEG_F_LOAD;
+
+PROCEDURE MS_PARTITION_DATES_LOAD;
+
+PROCEDURE END_OBR_LOAD;
+
+END OBR_LOAD;
+/
