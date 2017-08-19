@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Hello World</title>
+<!-- bootstrap css -->
+<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+
+<!-- navbar -->
+<nav class="navbar navbar-static-top navbar-inverse bg-inverse">
+    <a class="navbar-brand" href="/">Hello World</a>
+</nav>
+
+{% block body %}
+
+{% endblock %}
+
+<!-- bootstrap js -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</html>
