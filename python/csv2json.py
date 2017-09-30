@@ -23,8 +23,8 @@ def write_json(rows, outfile):
     :param outfile: filename path of json file
     :return: write json file
     """
-    with open(outfile, 'w') as json_file:
-        return json.dump(rows, json_file)
+    with open(outfile, 'w') as jsonfile:
+        return json.dump(rows, jsonfile)
 
 
 if __name__ == '__main__':
