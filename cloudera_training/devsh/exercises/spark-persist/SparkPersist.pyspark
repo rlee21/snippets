@@ -1,0 +1,19 @@
+# Stub code to paste into the shell
+
+sc.setLogLevel("WARN")
+
+# Count web server log requests by user id
+userReqs = sc.textFile("/loudacre/weblogs/*2.log")\
+  .map(lambda line: line.split()) \
+  .map(lambda words: (words[2],1)) \
+  .reduceByKey(lambda v1,v2: v1+v2)
+
+# Map account data to (userid,"lastname,firstname") pairs
+accounts = sc.textFile("/loudacre/accounts/*")\
+  .map(lambda s: s.split(',')) \
+  .map(lambda values: (values[0],values[4] + ',' + values[3]))
+
+# Join account names with request counts
+accountHits=accounts.join(userReqs)\
+  .map(lambda (userid,values): values) 
+  

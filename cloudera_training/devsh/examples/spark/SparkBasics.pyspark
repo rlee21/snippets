@@ -1,0 +1,36 @@
+# Example code from the Getting Started chapter
+
+# Show the App Name of the pyspark SparkContext
+sc.appName
+
+# Create an RDD from a text file
+mydata = sc.textFile("file:/home/training/training_materials/devsh/examples/example-data/purplecow.txt")
+
+# Display the number of lines in the RDD
+mydata.count()
+
+# print the first to records in the RDD
+for line in mydata.take(2): print line
+
+# Create a new RDD by mapping the existing one to upper case
+mydata_uc = mydata.map(lambda s: s.upper())
+
+# Create an RDD with only lines being with the letter 'I'
+mydata_filt = mydata_uc.filter(lambda s: s.startswith('I'))
+
+# Return the number of lines in the final RDD
+mydata_filt.count()
+
+# Show RDD lineage
+print mydata_filt.toDebugString()
+
+# Define a custom function and use it in a map
+def toUpper(s):
+     return s.upper()
+mydata.map(toUpper).take(2)
+
+# Demonstrate anonymous function in a map
+mydata.map(lambda line: line.upper()).take(2)
+
+
+

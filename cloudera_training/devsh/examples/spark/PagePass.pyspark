@@ -1,0 +1,34 @@
+# Example: Use a variable to pass a lookup table of Knowledge Base articles
+
+# Set logging level to WARN to avoid distracting INFO messages in demos
+sc.setLogLevel("WARN")
+
+import re
+
+# parse a line from a web log file to find the ID of the knowledge base article requested
+# return None if not a KB request
+def getRequestDoc(s):
+    match=re.search(r'KBDOC-[0-9]*',s)
+    return match.group() if match else None
+
+pagefile = "/home/training/training_materials/devsh/examples/example-data/kblist.txt"
+
+# read in file of knowledge base articles (pages)
+# line format is docid:title
+pages = dict(map(lambda l: l.strip().split(':'),open(pagefile)))
+
+# logfiles
+logfiles = "file:/home/training/training_materials/data/weblogs/*"
+
+# key logs by page ID requested
+logs = sc.textFile(logfiles) \
+   .keyBy(lambda line: getRequestDoc(line)) \
+   .filter(lambda (docid, line): docid) 
+
+# map article IDs to article names
+pagelogs = logs\
+   .map(lambda (docid, line): (pages[docid],line)) 
+
+# print the first 10 KB title/request pairs
+for x in pagelogs.take(10): print x
+

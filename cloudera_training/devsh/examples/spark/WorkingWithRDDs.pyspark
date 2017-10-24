@@ -1,0 +1,39 @@
+# Examples from Working with RDDs chapter
+
+# Set log level to WARN for readability of output
+sc.setLogLevel("WARN")
+
+# Create an RDD from a collection in memory
+myData = ["Alice","Carlos","Frank","Barbara"]
+myRdd = sc.parallelize(myData)
+myRdd.take(2)
+
+# Whole File-based RDDs example
+jsonFiles="file:/home/training/training_materials/devsh/examples/example-data/user*.json"
+import json
+myrdd1 = sc.wholeTextFiles(jsonFiles)
+myrdd2 = myrdd1.map(lambda (fname,s): json.loads(s))
+for record in myrdd2.take(2):
+    print record.get("firstName",None)
+
+
+# Multi-RDD transformation examples
+rdd1=sc.parallelize(["Chicago", "Boston", "Paris", "San Francisco", "Tokyo"])
+rdd2=sc.parallelize(["San Francisco", "Boston", "Amsterdam", "Mumbai", "McMurdo Station"])
+rdd1.collect()
+rdd2.collect()
+rdd1.union(rdd2).collect()
+rdd1.subtract(rdd2).collect()
+rdd1.zip(rdd2).collect()
+rdd1.intersection(rdd2).collect()
+
+# flatmap and distinct example
+filename="file:/home/training/training_materials/devsh/examples/example-data/catsat.txt"
+mydata_distinct= \
+   sc.textFile(filename). \
+   flatMap(lambda line: line.split(' ')).  \
+   distinct()
+mydata_distinct.collect()
+
+
+
