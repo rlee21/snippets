@@ -1,0 +1,30 @@
+{
+    "name": "Skills",
+    "namespace": "SkillEvent",
+    "type": "record",
+    "fields": [
+        {"name": "uid", "type": "int"},
+        {"name": "record_flag", "type": ["string", "null"]},
+        {"name": "professional_id", "type": ["int", "null"]},
+        {"name": "specialty_id", "type": ["int", "null"]},
+        {"name": "topic_id", "type": ["int", "null"]},
+        {"name": "skill_name", "type": ["string", "null"]},
+{
+    "name" : "event",
+    "type" : {
+      "type" : "record",
+      "name" : "Event",
+      "fields" : [ {
+        "name" : "name",
+        "type" : "string"
+      }, {
+        "name" : "timestamp",
+        "type" : "int"
+      }, {
+        "name" : "app_id",
+        "type" : "string"
+      } ]
+    }
+  }
+               ]
+}
