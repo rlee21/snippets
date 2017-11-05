@@ -6,7 +6,7 @@ from urlparse import urlparse, parse_qs
 
 
 def get_responses(url):
-    """ http request to get typeform data from specified url """
+    """ http request to get typeform response data """
     request = urllib.urlopen(url).read()
     content = json.loads(request)
     responses = content['responses']
@@ -35,7 +35,7 @@ def get_responses(url):
 
 
 def write_csv(data):
-    """ write csv file from typeform data """
+    """ write csv file from typeform response data """
     header = ['completed',
               'browser',
               'platform',
@@ -55,18 +55,21 @@ def write_csv(data):
             android = row[5].lower().find('android')
             mac = row[5].lower().find('mac os')
             windows = row[5].lower().find('windows nt')
+            linux = row[5].lower().find('linux')
             chromebook = row[5].lower().find('cros')
-            if row[2] == 'robot':
+            if row[2].lower() == 'robot':
                 os = 'Robot'
-            elif row[2].lower() == 'mobile' and iphone != -1 and android == -1:
+            elif row[2].lower() == 'mobile' and iphone != -1:
                 os = 'iOS'
-            elif row[2].lower() == 'mobile' and android != -1 and iphone == -1:
+            elif row[2].lower() == 'mobile' and android != -1:
                 os = 'Android'
-            elif row[2].lower() != 'mobile' and mac != -1 and windows == -1 and chromebook == -1:
+            elif row[2].lower() != 'mobile' and mac != -1:
                 os = 'Mac OS'
-            elif row[2].lower() != 'mobile' and windows != -1 and mac == -1 and chromebook == -1:
+            elif row[2].lower() != 'mobile' and windows != -1:
                 os = 'Windows'
-            elif row[2].lower() != 'mobile' and chromebook != -1 and mac == -1 and windows == -1:
+            elif row[2].lower() != 'mobile' and linux != -1:
+                os = 'Linux'
+            elif row[2].lower() != 'mobile' and chromebook != -1:
                 os = 'Chromebook'
             else:
                 os = 'Unknown'
@@ -90,4 +93,4 @@ if __name__ == '__main__':
     url = 'https://api.typeform.com/v1/form/bNKLG2?key=5e73c9ec7a381f4a2c4e362ff9f5ec8eacc46810&completed=false'
     data = get_responses(url)
     write_csv(data)
-    print('>>> Script has completed, see desktop for file typeform_as_of_YYYYMMDD.csv')
+    print('**** Process complete, see {} for results. ****'.format(outfile))
