@@ -32,3 +32,9 @@ git remote set-url origin <url.git>
 git branch --merge
 git branch -a
 git fetch
+
+git rebase master
+<make change>
+git rebase --continue
+git push --force
+
