@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS device;
+
+CREATE EXTERNAL TABLE device
+   (devnum SMALLINT, 
+    released TIMESTAMP,
+    name STRING,
+    type STRING)
+   ROW FORMAT DELIMITED 
+      FIELDS TERMINATED BY '\t';

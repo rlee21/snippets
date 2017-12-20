@@ -1,0 +1,39 @@
+# Set the log level to WARN to reduce distracting INFO messages
+sc.setLogLevel("WARN")
+
+# Explore Partitioning of file-based RDDs (accounts)
+accounts=sc.textFile("/loudacre/accounts/part-m-00000")
+print accounts.toDebugString()
+
+accounts=sc.textFile("/loudacre/accounts/part-m-00000",3)
+print accounts.toDebugString()
+
+accounts=sc.textFile("/loudacre/accounts/*")
+print accounts.toDebugString()
+
+# Optional: use foreachPartition to print out the first record of each partition
+def printFirstLine(iter):
+    print iter.next() 
+    
+accounts.foreachPartition(lambda i: printFirstLine(i))
+
+
+# Map account data to (userid,"lastname,firstname") pairs
+accountsByID  = sc.textFile("/loudacre/accounts/*")\
+  .map(lambda s: s.split(',')) \
+  .map(lambda values: (values[0],values[4] + ',' + values[3]))
+
+# Count web server log requests by user id
+userReqs = sc.textFile("/loudacre/weblogs/*2.log")\
+  .map(lambda line: line.split()) \
+  .map(lambda words: (words[2],1)) \
+  .reduceByKey(lambda v1,v2: v1+v2)
+
+# Join account names with request counts
+accountHits=accountsByID.join(userReqs).values()
+  
+print accountHits.toDebugString()
+
+accountHits.saveAsTextFile("/loudacre/userreqs")
+
+

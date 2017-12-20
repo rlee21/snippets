@@ -1,0 +1,43 @@
+// create an RDD based on a data file
+val myrdd = sc.textFile("file:/home/training/training_materials/data/frostroad.txt")
+
+// count the number of lines in the RDD
+myrdd.count()
+
+// display all the lines in the RDD
+myrdd.collect()
+
+// create an RDD based on the web log data files
+val logfiles="/loudacre/weblogs/*"
+val logsRDD = sc.textFile(logfiles)
+
+// count the number of records (lines) in the RDD
+logsRDD.count()
+
+// display the first 10 lines which are requests for JPG files
+val jpglogsRDD=logsRDD.filter(line => line.contains(".jpg"))
+jpglogsRDD.take(10)
+
+// display the JPG requests, this time using a single command line
+sc.textFile(logfiles).filter(line => line.contains(".jpg")).count()
+
+// Create an RDD of the length of each line in the file and display the first 5 line lengths
+logsRDD.map(line => line.length).take(5)
+
+// Map the log data to an RDD of arrays of the words on each line
+logsRDD.map(line => line.split(' ')).take(5)
+
+// Map the log data to an RDD of IP addresses for each line 
+val ipsRDD = logsRDD.map(line => line.split(' ')(0))
+ipsRDD.take(5)
+
+// Loop through the array returned by take
+ipsRDD.take(10).foreach(println)
+
+// Save the IP addresses to text file(s)
+ipsRDD.saveAsTextFile("/loudacre/iplist")
+
+// Bonus Exercise - Display "ip-address/user-id" for the first 5 HTML requests in the data set
+var htmllogs=logsRDD.filter(_.contains(".html")).map(line => (line.split(' ')(0),line.split(' ')(2)))
+htmllogs.take(5).foreach(t => println(t._1 + "/" + t._2))
+

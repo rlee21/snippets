@@ -1,0 +1,18 @@
+# Set logging level to WARN to avoid distracting INFO messages in demos
+sc.setLogLevel("WARN")
+
+# Use accumulators to calculate the average length of all words in a data set
+
+myfile = "file:/home/training/training_materials/data/frostroad.txt"
+
+def addTotals(word,words,letters):    
+    words +=1
+    letters += len(word)
+
+totalWords = sc.accumulator(0)
+totalLetters = sc.accumulator(0.0)
+
+words = sc.textFile(myfile).flatMap(lambda line: line.split())
+words.foreach(lambda word: addTotals(word,totalWords,totalLetters))
+  
+print "Average word length: ", totalLetters.value/totalWords.value

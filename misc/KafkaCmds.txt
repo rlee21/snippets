@@ -1,0 +1,9 @@
+kafka-topics --delete --zookeeper nn1test.prod.avvo.com:2181 --topic skills;
+kafka-topics --create --zookeeper nn1test.prod.avvo.com:2181 --replication-factor 1 --partitions 1 --topic skills;
+
+kafka-console-consumer --zookeeper nn1test.prod.avvo.com:2181 --topic skills --from-beginning
+kafka-console-consumer --zookeeper nn1test.prod.avvo.com:2181 --topic skills
+kafka-consumer-offset-checker --group foo --topic skills --zookeeper nn1test.prod.avvo.com:2181
+
+kafka-topics --zookeeper nn1test.prod.avvo.com:2181 --list
+kafka-topics --describe --zookeeper nn1test.prod.avvo.com:2181 --topic skills

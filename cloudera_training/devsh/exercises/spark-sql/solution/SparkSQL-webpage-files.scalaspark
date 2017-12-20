@@ -1,0 +1,51 @@
+// Before running solution, import webpage table using Sqoop:
+// sqoop import --connect jdbc:mysql://localhost/loudacre --username training --password training --table webpage --target-dir /loudacre/webpage --as-parquetfile
+
+// Create a DataFrame from the webpage table
+val webpageDF = sqlContext.read.load("/loudacre/webpage")
+
+// Show the schema for the webpage table dataframe
+webpageDF.printSchema()
+
+// View the first few records
+webpageDF.show(5)
+
+// Create a new DF by selecting two columns of the first DF
+val assocFilesDF = webpageDF.select($"web_page_num",$"associated_files")
+
+// Print the schema of the new DF
+assocFilesDF.printSchema
+
+// Show the first few rows of the DF
+assocFilesDF.show(5)
+
+// Create an RDD from the DF, and extract the column values from the Row items into a pair 
+val aFilesRDD = assocFilesDF.
+  map(row => (row.getAs[Short]("web_page_num"),row.getAs[String]("associated_files")))
+
+// Split the list of files names in the second column
+val aFilesRDD2 = aFilesRDD.flatMapValues(filestring => filestring.split(','))
+
+// Convert the RDD to a RowRDD
+import org.apache.spark.sql.Row
+val aFilesRowRDD = aFilesRDD2.map(pair => Row(pair._1,pair._2))
+
+// Convert back to a DataFrame
+val aFileDF = sqlContext.createDataFrame(aFilesRowRDD,assocFilesDF.schema)
+aFileDF.printSchema
+
+// Give the new DataFrame a more accurate column name
+val finalDF = aFileDF.withColumnRenamed("associated_files","associated_file")
+finalDF.printSchema
+finalDF.show(5)
+
+// Save as files, overwriting any prior data in the directory
+finalDF.write.
+  mode("overwrite").
+  save ("/loudacre/webpage_files")
+
+// After saving, download and review one of the saved files
+// $ hdfs dfs -ls /loudacre/webpage_files
+// $ hdfs dfs -get /loudacre/webpage/<filename>
+// $ parquet-tools schema <filename>
+// $ parquet-tools head <filename>

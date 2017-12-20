@@ -1,0 +1,40 @@
+# workflow
+git checkout master
+git pull
+git checkout -b <branch_name>
+git status
+git add
+git commit -m <"message">
+git push --set-upstream origin <branch_name>
+
+# merging to master
+git checkout master
+git pull origin master
+git branch --merged
+git merge <branch name>
+git push origin master
+
+# deleting remote branch
+git branch -d branch_name
+git push origin --delete <branch_name>
+
+# stashing
+git stash list
+git stash save <file_name> <"message">
+git stash pop
+
+# cleanup
+git update-ref -d refs/remotes/origin/relee
+git fetch --all --prune
+
+# misc
+git remote set-url origin <url.git>
+git branch --merge
+git branch -a
+git fetch
+
+git rebase master
+<make change>
+git rebase --continue
+git push --force
+

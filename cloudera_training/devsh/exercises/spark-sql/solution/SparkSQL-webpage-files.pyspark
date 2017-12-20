@@ -1,0 +1,46 @@
+# Before running solution, import webpage table using Sqoop:
+# sqoop import --connect jdbc:mysql://localhost/loudacre --username training --password training --table webpage --target-dir /loudacre/webpage --as-parquetfile
+
+# Set solution log level to WARN for readability
+sc.setLogLevel("WARN")
+
+# Create a DataFrame based on the webpage table
+webpageDF = sqlContext.read.load("/loudacre/webpage")
+
+# Show the schema for the webpage table dataframe
+webpageDF.printSchema()
+
+# View the first few records
+webpageDF.show(5)
+
+# Create a new DF by selecting two columns of the first DF
+assocFilesDF = webpageDF.select(webpageDF.web_page_num,webpageDF.associated_files)
+
+# Print the schema of the new DF
+assocFilesDF.printSchema()
+
+# Show the first few rows of the DF
+assocFilesDF.show(5)
+
+# Convert to an RDD and extract the values from the Row items
+aFilesRDD = assocFilesDF.map(lambda row: (row.web_page_num,row.associated_files))
+
+# Split the list of files names in the second column
+aFilesRDD2 = aFilesRDD.flatMapValues(lambda filestring: filestring.split(','))
+
+# Convert back to a DataFrame
+aFileDF = sqlContext.createDataFrame(aFilesRDD2,assocFilesDF.schema)
+aFileDF.printSchema()
+
+# Give the new DataFrame a more accurate column name
+finalDF = aFileDF.withColumnRenamed('associated_files','associated_file')
+finalDF.printSchema()
+
+# Save as files, overwriting any prior data in the directory
+finalDF.write.mode("overwrite").save ("/loudacre/webpage_files")
+
+# After saving, download and review one of the saved files
+# $ hdfs dfs -ls /loudacre/webpage_files
+# $ hdfs dfs -get /loudacre/webpage/<filename>
+# $ parquet-tools schema <filename>
+# $ parquet-tools head <filename>

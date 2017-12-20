@@ -1,0 +1,35 @@
+# Example: Join a list of Knowledge Base articles with article requests from a web server log 
+
+# Set logging level to WARN to avoid distracting INFO messages in demos
+sc.setLogLevel("WARN")
+
+import re
+
+# parse a line from a web log file to find the ID of the knowledge base article requested
+# return None if not a KB request
+def getRequestDoc(s):
+    match=re.search(r'KBDOC-[0-9]*',s)
+    return match.group() if match else None
+
+pagefile = "file:/home/training/training_materials/devsh/examples/example-data/kblist.txt"
+
+# read in file of knowledge base articles 
+# line format is docid:title
+pages =  sc.textFile(pagefile).\
+   map(lambda line: line.split(':')).\
+   map(lambda pair: (pair[0],pair[1]))
+
+# logfiles
+logfiles = "file:/home/training/training_materials/data/weblogs/*"     
+
+
+# key logs by page ID requested
+logs = sc.textFile(logfiles) \
+   .keyBy(lambda line: getRequestDoc(line)) \
+   .filter(lambda (docid, line): docid) 
+
+# join the list of articles with the list of requests and display the first 10
+pagelogs = logs.join(pages)
+
+# print the first 10 KB title/request pairs
+for pair in pagelogs.take(10): print pair

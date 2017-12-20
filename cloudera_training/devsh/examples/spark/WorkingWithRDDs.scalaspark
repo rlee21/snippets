@@ -1,0 +1,45 @@
+// Example code from the Working with RDDs chapter
+
+// Create an RDD from a collection in memory
+val myData = List("Alice","Carlos","Frank","Barbara")
+val myRdd = sc.parallelize(myData)
+myRdd.take(2)
+
+// Whole File-based RDDs example
+val jsonFiles="file:/home/training/training_materials/devsh/examples/example-data/user*.json"
+import scala.util.parsing.json.JSON
+val myrdd1 = sc.wholeTextFiles(jsonFiles)
+val myrdd2 = myrdd1.map(pair => JSON.parseFull(pair._2).get.asInstanceOf[Map[String,String]])
+for (record <- myrdd2.take(2))
+    println(record.getOrElse("firstName",null))
+
+
+// use flatMap to map a text file into individual words, and distinct to remove duplicates
+val myfile = "file:/home/training/training_materials/devsh/examples/example-data/purplecow.txt"
+sc.textFile(myfile).
+  flatMap(line => line.split(' ')).
+  distinct().
+  collect()
+
+// Multi-RDD transformation examples
+val rdd1=sc.parallelize(Array("Chicago", "Boston", "Paris", "San Francisco", "Tokyo"))
+val rdd2=sc.parallelize(Array("San Francisco", "Boston", "Amsterdam", "Mumbai", "McMurdo Station"))
+rdd1.collect()
+rdd2.collect()
+rdd1.union(rdd2).collect()
+rdd1.subtract(rdd2).collect()
+rdd1.zip(rdd2).collect()
+rdd2.intersection(rdd2).collect()
+
+// flatmap and distinct example
+val filename="file:/home/training/training_materials/devsh/examples/example-data/catsat.txt"
+val mydata_distinct=
+   sc.textFile(filename).
+   flatMap(line => line.split(' ')). 
+   distinct()
+ mydata_distinct.collect
+
+
+
+
+
