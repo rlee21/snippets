@@ -1,0 +1,15 @@
+heroku login
+heroku create
+heroku open
+git push heroku master
+
+heroku login
+heroku domains
+heroku apps
+heroku domains --app nameless-basin-79554
+heroku domains:add www.robertlee.me --app nameless-basin-79554
+heroku domains:add robertlee.me --app nameless-basin-79554
+heroku domains --app nameless-basin-79554
+host www.robertlee.me
+host robertlee.me
+heroku logout
