@@ -32,9 +32,30 @@ if __name__ == '__main__':
         position = input('Enter position: ')
         if position not in positions:
             print('ERROR: not a valid position, enter one of the valid positions below \n', positions)
-        value = input('Enter value: ')
+            position = input('Enter position: ')
+        value = input('Enter value: ').upper()
         if value not in values:
             print('ERROR: not a valid value, enter one of the valid values below \n', values)
-
+            value = input('Enter value: ').upper()
         update_board(board, position, value)
+        if board['top-L'] != ' ' and board['top-L'] == board['top-R'] and board['top-L'] == board['top-M']:
+            print('YOU WON!!')
+            print_board(board)
+            break
+        elif board['mid-L'] != ' ' and board['mid-L'] == board['mid-R']:
+            print('YOU WON!!')
+            print_board(board)
+            break
+        elif board['low-L'] != ' ' and board['low-L'] == board['low-R']:
+            print('YOU WON!!')
+            print_board(board)
+            break
+        elif board['top-L'] != ' ' and board['mid-M'] == board['low-R']:
+            print('YOU WON!!')
+            print_board(board)
+            break
+        elif board['top-R'] != ' ' and board['mid-M'] == board['low-L']:
+            print('YOU WON!!')
+            print_board(board)
+            break
         print_board(board)
