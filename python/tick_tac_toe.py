@@ -42,19 +42,19 @@ if __name__ == '__main__':
             print('YOU WON!!')
             print_board(board)
             break
-        elif board['mid-L'] != ' ' and board['mid-L'] == board['mid-R']:
+        elif board['mid-L'] != ' ' and board['mid-L'] == board['mid-R'] and board['mid-L'] == board['mid-M']:
             print('YOU WON!!')
             print_board(board)
             break
-        elif board['low-L'] != ' ' and board['low-L'] == board['low-R']:
+        elif board['low-L'] != ' ' and board['low-L'] == board['low-R'] and board['low-L'] == board['low-M']:
             print('YOU WON!!')
             print_board(board)
             break
-        elif board['top-L'] != ' ' and board['mid-M'] == board['low-R']:
+        elif board['top-L'] != ' ' and board['top-L'] == board['mid-M'] and board['top-L'] == board['low-R']:
             print('YOU WON!!')
             print_board(board)
             break
-        elif board['top-R'] != ' ' and board['mid-M'] == board['low-L']:
+        elif board['top-R'] != ' ' and board['top-R'] == board['mid-M'] and board['top-R'] == board['low-L']:
             print('YOU WON!!')
             print_board(board)
             break
