@@ -30,11 +30,11 @@ if __name__ == '__main__':
     print_board(board)
     for _ in range(9):
         position = input('Enter position: ')
-        if position not in positions:
+        while position not in positions:
             print('ERROR: not a valid position, enter one of the valid positions below \n', positions)
             position = input('Enter position: ')
         value = input('Enter value: ').upper()
-        if value not in values:
+        while value not in values:
             print('ERROR: not a valid value, enter one of the valid values below \n', values)
             value = input('Enter value: ').upper()
         update_board(board, position, value)
