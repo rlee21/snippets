@@ -38,3 +38,5 @@ git rebase master
 git rebase --continue
 git push --force
 
+# checkout remote branch
+git checkout -b <local branch name> origin/<remote branch name>
