@@ -1,0 +1,16 @@
+dependencies:
+    pre:
+        - gem install package_cloud
+        - pip install --upgrade pip
+        - pip install --upgrade wheel
+    override:
+        - python setup.py install
+        - python setup.py bdist_wheel
+
+deployment:
+    production:
+        branch: master
+        commands:
+            - python scripts/clear_packages.py
+            - bash scripts/package_cloud_push.sh
+

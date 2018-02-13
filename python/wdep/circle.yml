@@ -1,0 +1,19 @@
+machine:
+    python:
+        version: '2.7.13'
+
+dependencies:
+    pre:
+        - gem install package_cloud
+        - pip install --upgrade pip
+        - pip install --upgrade wheel
+    override:
+        - python setup.py install
+        - python setup.py sdist bdist_wheel
+
+deployment:
+    production:
+        branch: master
+        commands:
+            - package_cloud push avvo/data/python ./dist/avvo_salesforce-0.1-py2-none-any.whl
+
