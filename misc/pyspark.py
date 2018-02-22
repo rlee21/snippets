@@ -1,7 +1,5 @@
 # regular python
 import json
-
-
 json_entry = '{"name": "Oreo"}'
 entry = json.loads(json_entry)
 print(entry["name"])
@@ -42,4 +40,13 @@ book_entries.filter(lambda book: "by_statement" in book) and "Charles Dickens" i
             .count()
 
 # store in parquet format if you want to query the data
+# flatMap example: splitting on spaces to convert strings to words
+# collect() is like list(map(x * x))
+
+numsRDD = sc.parallelize([1, 2, 3, 4])
+squaredRDD = numsRDD.map(lambda x: x*x).collect()
+filterednumsRDD = numsRDD.filter(lambda x: (x != 1)).collect()
+
+linesRDD = sc.parallelize(["Hello world", "how are you"])
+wordsRDD = linesRDD.flatMap(lambda x: x.split(" ")).collect()
 
