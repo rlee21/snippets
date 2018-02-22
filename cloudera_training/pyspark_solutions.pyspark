@@ -1,0 +1,456 @@
+# Stub code to copy into Spark Shell
+
+import xml.etree.ElementTree as ElementTree
+
+# Optional: Set logging level to WARN to reduce distracting info messages
+sc.setLogLevel("WARN")
+
+# Given a string containing XML, parse the string, and
+# return an iterator of activation XML records (Elements) contained in the string
+
+def getActivations(s):
+    filetree = ElementTree.fromstring(s)
+    return filetree.getiterator('activation')
+
+# Given an activation record (XML Element), return the model name
+def getModel(activation):
+    return activation.find('model').text
+
+# Given an activation record (XML Element), return the account number
+def getAccount(activation):
+    return activation.find('account-number').text
+# Stub code to copy into Spark Shell
+
+import xml.etree.ElementTree as ElementTree
+
+# Optional: Set logging level to WARN to reduce distracting info messages
+sc.setLogLevel("WARN")
+
+# Given a string containing XML, parse the string, and
+# return an iterator of activation XML records (Elements) contained in the string
+
+def getActivations(s):
+    filetree = ElementTree.fromstring(s)
+    return filetree.getiterator('activation')
+
+# Given an activation record (XML Element), return the model name
+def getModel(activation):
+    return activation.find('model').text
+
+# Given an activation record (XML Element), return the account number
+def getAccount(activation):
+    return activation.find('account-number').text
+
+# Exercise solution
+# Read XML files into an RDD
+files="/loudacre/activations"
+activationFiles = sc.wholeTextFiles(files)
+
+# Parse each file (as a string) into a collection of activation XML records
+activationRecords = activationFiles.flatMap(lambda (filename,xmlstring): getActivations(xmlstring))
+
+# Map each activation record to "account-number:model-name"
+models = activationRecords.map(lambda record: getAccount(record) + ":" + getModel(record))
+
+# Save the data to a file
+models.saveAsTextFile("/loudacre/account-models")
+# Upload data files to HDFS before running solution
+
+# Example data:
+# 2014-03-15:10:10:33,Ronin S2,1a7eca8d-60c9-4d25-8609-d6cfd1ac80a1,0,24,82,72,enabled,enabled,enabled,41,62,36.49259162,-121.003629078
+# 2014-03-15:10:10:33/Titanic 2300/d86dbb9d-ff3c-40c6-8685-01f1fac45d9f/59/83/9/3/28/0/enabled/disabled/enabled/34.3456792864/-117.768326105
+
+# Optional: Set logging level to WARN to reduce distracting info messages
+sc.setLogLevel("WARN")
+
+# Load the data file
+devstatus = sc.textFile("/loudacre/devicestatus.txt")
+
+# Filter out lines with < 20 characters, use the 20th character as the delimiter, parse the line, and filter out bad lines
+cleanstatus = devstatus. \
+    filter(lambda line: len(line) > 20). \
+    map(lambda line: line.split(line[19:20])). \
+    filter(lambda values: len(values) == 14)
+
+# Create a new RDD containing date, manufacturer, device ID, latitude and longitude
+devicedata = cleanstatus. \
+    map(lambda values: (values[0], values[1].split(' ')[0], values[2], values[12], values[13]))
+
+# Save to a CSV file as a comma-delimited string (trim parenthesis from tuple toString)
+devicedata. \
+    map(lambda values: ','.join(values)). \
+    saveAsTextFile("/loudacre/devicestatus_etl")
+#  Find K Means of Loudacre device status locations
+#
+# Input data: file(s) with device status data (delimited by ',')
+# including latitude (4th field) and longitude (5th field) of device locations
+# (lat,lon of 0,0 indicates unknown location)
+
+# for a point p and an array of points, return the index in the array of the point closest to p
+def closestPoint(p, points):
+    bestIndex = 0
+    closest = float("+inf")
+    # for each point in the array, calculate the distance to the test point, then return
+    # the index of the array point with the smallest distance
+    for i in range(len(points)):
+        dist = distanceSquared(p,points[i])
+        if dist < closest:
+            closest = dist
+            bestIndex = i
+    return bestIndex
+
+# The squared distances between two points
+def distanceSquared(p1,p2):
+    return (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2
+
+# The sum of two points
+def addPoints(p1,p2):
+    return [p1[0] + p2[0], p1[1] + p2[1]]
+
+sc.setLogLevel("WARN")
+
+# The files with device status data
+filename = "/loudacre/devicestatus_etl/*"
+
+# K is the number of means (center points of clusters) to find
+K = 5
+
+# ConvergeDist -- the threshold "distance" between iterations at which we decide we are done
+convergeDist = .1
+
+# Split by delimiter, parse device status records into [latitude,longitude]
+# Filter out records where lat/long is unavailable -- ie: 0/0 points
+# TODO
+
+# start with K randomly selected points from the dataset
+# TODO
+
+# loop until the total distance between one iteration's points and the next is less than the convergence distance specified
+tempDist = float("+inf")
+while tempDist > convergeDist:
+    # for each point, find the index of the closest kpoint.  map to (index, (point,1))
+    # TODO
+    # For each key (k-point index), reduce by adding the coordinates and number of points
+    # TODO
+    # For each key (k-point index), find a new point by calculating the average of each closest point
+    # TODO
+    # calculate the total of the distance between the current points and new points
+    # TODO
+    # Copy the new points to the kPoints array for the next iteration
+    # TODO
+
+# Display the final points
+# TODO
+#  Find K Means of Loudacre device status locations
+#
+# Input data: file(s) with device status data (delimited by ',')
+# including latitude (4th field) and longitude (5th field) of device locations
+# (lat,lon of 0,0 indicates unknown location)
+
+# for a point p and an array of points, return the index in the array of the point closest to p
+def closestPoint(p, points):
+    bestIndex = 0
+    closest = float("+inf")
+    # for each point in the array, calculate the distance to the test point, then return
+    # the index of the array point with the smallest distance
+    for i in range(len(points)):
+        dist = distanceSquared(p,points[i])
+        if dist < closest:
+            closest = dist
+            bestIndex = i
+    return bestIndex
+
+# The squared distances between two points
+def distanceSquared(p1,p2):
+    return (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2
+
+# The sum of two points
+def addPoints(p1,p2):
+    return [p1[0] + p2[0], p1[1] + p2[1]]
+
+sc.setLogLevel("WARN")
+
+# The files with device status data
+filename = "/loudacre/devicestatus_etl/*"
+
+# K is the number of means (center points of clusters) to find
+K = 5
+
+# ConvergeDist -- the threshold "distance" between iterations at which we decide we are done
+convergeDist = .1
+
+# Split by delimiter, parse  latitude and longitude (4th and 5th fields) into two-element arrays
+# Filter out records where lat/long is unavailable -- ie: 0/0 points
+points = sc.textFile(filename)\
+     .map(lambda line: line.split(","))\
+     .map(lambda fields: [float(fields[3]),float(fields[4])])\
+     .filter(lambda point: sum(point) != 0)\
+     .persist()
+
+# start with K randomly selected points from the dataset
+kPoints = points.takeSample(False, K, 34)
+print "Starting points:", kPoints
+
+# loop until the total distance between one iteration's points and the next is less than the convergence distance specified
+tempDist = float("+inf")
+while tempDist > convergeDist:
+    # for each point, find the index of the closest kpoint.  map to (index, (point,1))
+    closest = points.map(lambda p : (closestPoint(p, kPoints), (p, 1)))
+    # For each key (k-point index), reduce by adding the coordinates and number of points
+    pointStats = closest.reduceByKey(lambda (point1,n1),(point2,n2):  (addPoints(point1,point2),n1+n2) )
+    # For each key (k-point index), find a new point by calculating the average of each closest point
+    newPoints = pointStats.map(lambda (i,(point,n)): (i,[point[0]/n,point[1]/n])).collect()
+    # calculate the total of the distance between the current points and new points
+    tempDist=0
+    for  (i,point) in newPoints: tempDist += distanceSquared(kPoints[i],point)
+    print "Distance between iterations:",tempDist
+    # Copy the new points to the kPoints array for the next iteration
+    for (i, point) in newPoints: kPoints[i] = point
+
+# Display the final points
+print "Final center points: " + str(kPoints)
+# Set the log level to WARN to reduce distracting INFO messages
+sc.setLogLevel("WARN")
+
+accountsdata = "/loudacre/accounts"
+
+# Bonus 1 - key accounts by postal/zip code
+accountsByPCode = sc.textFile(accountsdata) \
+   .map(lambda s: s.split(','))\
+   .keyBy(lambda account: account[8])
+
+ # Bonus 2 - map account data to lastname,firstname
+namesByPCode = accountsByPCode\
+   .mapValues(lambda account: account[4] + ',' + account[3]) \
+   .groupByKey()
+
+# Bonus 3 - print the first 5 zip codes and list the names
+for (pcode,names) in namesByPCode.sortByKey().take(5):
+   print "---" ,pcode
+   for name in names: print name
+
+# Set the log level to WARN to reduce distracting INFO messages
+sc.setLogLevel("WARN")
+
+# Step 1 - Create an RDD based on a subset of weblogs (those ending in digit 2)
+logs=sc.textFile("/loudacre/weblogs/*2.log")
+# map each request (line) to a pair (userid, 1), then sum the values
+userreqs = logs \
+   .map(lambda line: line.split()) \
+   .map(lambda words: (words[2],1))  \
+   .reduceByKey(lambda count1,count2: count1 + count2)
+
+# Step 2 - Show the count frequencies
+freqcount = userreqs.map(lambda (userid,freq): (freq,userid)).countByKey()
+print freqcount
+
+# Step 3 - Group IPs by user ID
+userips = logs \
+   .map(lambda line: line.split()) \
+   .map(lambda words: (words[2],words[0])) \
+   .groupByKey()
+# print out the first 10 user ids, and their IP list
+for (userid,ips) in userips.take(10):
+   print userid, ":"
+   for ip in ips: print "\t",ip
+
+# Step 4a - Map account data to (userid,[values....])
+accountsdata = "/loudacre/accounts"
+accounts = sc.textFile(accountsdata) \
+   .map(lambda s: s.split(',')) \
+   .map(lambda account: (account[0],account))
+
+# Step 4b - Join account data with userreqs then merge hit count into valuelist
+accounthits = accounts.join(userreqs)
+
+# Step 4c - Display userid, hit count, first name, last name for the first 5 elements
+for (userid,(values,count)) in accounthits.take(5) :
+    print  userid, count, values[3],values[4]
+
+# Stub code to paste into the shell
+
+sc.setLogLevel("WARN")
+
+# Count web server log requests by user id
+userReqs = sc.textFile("/loudacre/weblogs/*2.log")\
+  .map(lambda line: line.split()) \
+  .map(lambda words: (words[2],1)) \
+  .reduceByKey(lambda v1,v2: v1+v2)
+
+# Map account data to (userid,"lastname,firstname") pairs
+accounts = sc.textFile("/loudacre/accounts/*")\
+  .map(lambda s: s.split(',')) \
+  .map(lambda values: (values[0],values[4] + ',' + values[3]))
+
+# Join account names with request counts
+accountHits=accounts.join(userReqs)\
+  .map(lambda (userid,values): values)
+
+# Solution starts here
+
+#  How many accounts had hitcount > 5?
+accountHits.filter(lambda (firstlast,hitcount): hitcount > 5).count()
+
+# Persist the RDD
+accountHits.persist()
+
+# Rerun the job
+accountHits.filter(lambda (firstlast,hitcount): hitcount > 5).count()
+
+print accountHits.toDebugString()
+
+# Bonus solution
+from pyspark import StorageLevel
+accountHits.unpersist()
+accountHits.persist(StorageLevel.DISK_ONLY)
+
+accountHits.filter(lambda (firstlast,hitcount): hitcount > 5).count()# Stub code to paste into the shell
+
+sc.setLogLevel("WARN")
+
+# Count web server log requests by user id
+userReqs = sc.textFile("/loudacre/weblogs/*2.log")\
+  .map(lambda line: line.split()) \
+  .map(lambda words: (words[2],1)) \
+  .reduceByKey(lambda v1,v2: v1+v2)
+
+# Map account data to (userid,"lastname,firstname") pairs
+accounts = sc.textFile("/loudacre/accounts/*")\
+  .map(lambda s: s.split(',')) \
+  .map(lambda values: (values[0],values[4] + ',' + values[3]))
+
+# Join account names with request counts
+accountHits=accounts.join(userReqs)\
+  .map(lambda (userid,values): values)
+
+# Create an RDD based on a data file
+myrdd = sc.textFile("file:/home/training/training_materials/data/frostroad.txt")
+
+# Count the number of lines in the RDD
+myrdd.count()
+
+# Display all the lines in the RDD
+myrdd.collect()
+
+# Optional: Set logging level to WARN to reduce distracting info messages
+sc.setLogLevel("WARN")
+
+# Create an RDD based on the web log data files
+logfiles="/loudacre/weblogs/*"
+logsRDD = sc.textFile(logfiles)
+
+# Count the number of records (lines) in the RDD
+logsRDD.count()
+
+# Display the first 10 lines which are requests for JPG files
+jpglogsRDD=logsRDD.filter(lambda line: ".jpg" in line)
+jpglogsRDD.take(10)
+
+# Display the JPG requests, this time using a single command line
+sc.textFile(logfiles).filter(lambda line: ".jpg" in line).count()
+
+# Create an RDD of the length of each line in the file and display the first 5 line lengths
+logsRDD.map(lambda line: len(line)).take(5)
+
+# Map the log data to an RDD of arrays of the words on each line
+logsRDD.map(lambda line: line.split(' ')).take(5)
+
+# Map the log data to an RDD of IP addresses for each line
+ipsRDD = logsRDD.map(lambda line: line.split(' ')[0])
+ipsRDD.take(5)
+
+# Loop through the array returned by take
+for ip in ipsRDD.take(10): print ip
+
+# Save the IP addresses to text file(s)
+ipsRDD.saveAsTextFile("/loudacre/iplist")
+
+# Bonus Exercise - Display "ip-address/user-id" for the first 5 HTML requests
+# in the data set
+htmllogsRDD=logsRDD.filter(lambda line: ".htm" in line).map(lambda line: (line.split()[0],line.split()[2]))
+for x in htmllogsRDD.take(5): print x[0]+"/"+x[1]
+# Before running solution, import webpage table using Sqoop:
+# sqoop import --connect jdbc:mysql://localhost/loudacre --username training --password training --table webpage --target-dir /loudacre/webpage --as-parquetfile
+
+# Set solution log level to WARN for readability
+sc.setLogLevel("WARN")
+
+# Create a DataFrame based on the webpage table
+webpageDF = sqlContext.read.load("/loudacre/webpage")
+
+# Show the schema for the webpage table dataframe
+webpageDF.printSchema()
+
+# View the first few records
+webpageDF.show(5)
+
+# Create a new DF by selecting two columns of the first DF
+assocFilesDF = webpageDF.select(webpageDF.web_page_num,webpageDF.associated_files)
+
+# Print the schema of the new DF
+assocFilesDF.printSchema()
+
+# Show the first few rows of the DF
+assocFilesDF.show(5)
+
+# Convert to an RDD and extract the values from the Row items
+aFilesRDD = assocFilesDF.map(lambda row: (row.web_page_num,row.associated_files))
+
+# Split the list of files names in the second column
+aFilesRDD2 = aFilesRDD.flatMapValues(lambda filestring: filestring.split(','))
+
+# Convert back to a DataFrame
+aFileDF = sqlContext.createDataFrame(aFilesRDD2,assocFilesDF.schema)
+aFileDF.printSchema()
+
+# Give the new DataFrame a more accurate column name
+finalDF = aFileDF.withColumnRenamed('associated_files','associated_file')
+finalDF.printSchema()
+
+# Save as files, overwriting any prior data in the directory
+finalDF.write.mode("overwrite").save ("/loudacre/webpage_files")
+
+# After saving, download and review one of the saved files
+# $ hdfs dfs -ls /loudacre/webpage_files
+# $ hdfs dfs -get /loudacre/webpage/<filename>
+# $ parquet-tools schema <filename>
+# $ parquet-tools head <filename>
+# Set the log level to WARN to reduce distracting INFO messages
+sc.setLogLevel("WARN")
+
+# Explore Partitioning of file-based RDDs (accounts)
+accounts=sc.textFile("/loudacre/accounts/part-m-00000")
+print accounts.toDebugString()
+
+accounts=sc.textFile("/loudacre/accounts/part-m-00000",3)
+print accounts.toDebugString()
+
+accounts=sc.textFile("/loudacre/accounts/*")
+print accounts.toDebugString()
+
+# Optional: use foreachPartition to print out the first record of each partition
+def printFirstLine(iter):
+    print iter.next()
+
+accounts.foreachPartition(lambda i: printFirstLine(i))
+
+
+# Map account data to (userid,"lastname,firstname") pairs
+accountsByID  = sc.textFile("/loudacre/accounts/*")\
+  .map(lambda s: s.split(',')) \
+  .map(lambda values: (values[0],values[4] + ',' + values[3]))
+
+# Count web server log requests by user id
+userReqs = sc.textFile("/loudacre/weblogs/*2.log")\
+  .map(lambda line: line.split()) \
+  .map(lambda words: (words[2],1)) \
+  .reduceByKey(lambda v1,v2: v1+v2)
+
+# Join account names with request counts
+accountHits=accountsByID.join(userReqs).values()
+
+print accountHits.toDebugString()
+
+accountHits.saveAsTextFile("/loudacre/userreqs")
+
+
