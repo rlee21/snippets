@@ -1,0 +1,48 @@
+
+wdep or adep???
+
+- support better one-time jobs (should be easy to deploy a one time job)
+
+wdep package [-n user|final] [-e test|prod] [ --start DATE (default: NOW)
+             --end DATE (default: 20250101-12:00:00 ] [ -v (virtual env: needs a
+             requirements.txt, should be able to pull down a currently active venv) ]
+             [--exclude comma sep list if dirs or files to exclude]
+             [-p|--path /PATH/ use path to package]
+    - locally package all the needed code for the oozie workflow (deploy-{wf_name})
+    - include/exclude files/dirs
+    - virtual env packaging 
+
+wdep deploy [-e test|prod] [--no-hadoop (does not send data to hadoop, default
+            sends it)] [--hadoop-path path to send data on hadoop (would this
+            be used?] [-v (virtual env: python)] [-w|--workflow WF_NAME should
+            this be a path instead?? could also be used to just send data to
+            hadoop from local machine]
+    - default to send to gateway and to hadoop
+
+wdep run [test|prod] [-w|--workflow --name??? WF_NAME]
+    - this just runs the workflow in hadoop (no packaging, no deploying)
+    - default workflow name to current path
+
+General flow:
+
+--------
+
+# Package, deploy, then run a wf from the current dir to test with a name space as final
+wdep package final && wdep deploy test && wdep run test
+
+# Package, deploy, then run a wf from the current dir to test with a name space as user
+wdep package user && wdep deploy test && wdep run test
+
+# Package, deploy, then run a wf from the current dir to test with a name space as user
+wdep package user && wdep deploy test && wdep run test
+
+-----------
+
+Current flow:
+
+- create local package dir
+- create properties file
+- copy common files
+    - data_vault.py, deploy2hadoop.sh, vPython.sh, run_shell_touch.sh (will only need: data_vault.py and run_shell_touch.sh)
+- send to gateway
+

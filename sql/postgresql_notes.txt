@@ -1,0 +1,32 @@
+psql postgres
+
+open psql
+1) '/Applications/Postgres.app/Contents/Versions/9.6/bin'/psql -p5432
+2) drop database steno;
+3) create database steno;
+4) \q
+5) '/Applications/Postgres.app/Contents/Versions/9.6/bin'/psql steno < /Users/relee/Documents/postgresql/2017-11-08T00:00:34Z.sql
+
+
+\c steno
+COPY channel_twilio_user TO '/Users/relee/Documents/postgresql/channel_twilio_user.csv' DELIMITER ',' CSV HEADER;
+COPY twilio_user TO '/Users/relee/Documents/postgresql/twilio_user.csv' DELIMITER ',' CSV HEADER;
+
+
+\du = list of roles
+\dt = show tables
+\l or \list = show databases
+\q = quit
+
+############
+\du
+create role steno with login password '';
+alter role steno superuser;
+create database steno;
+\l
+############
+
+# resources:
+https://www.codementor.io/devops/tutorial/getting-started-postgresql-server-mac-osx
+https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=5&cad=rja&uact=8&ved=0ahUKEwiQ44OhnpbVAhUJ0oMKHVGZA7sQFghDMAQ&url=https%3A%2F%2Fwww.postgresql.org%2Fdocs%2F9.5%2Fstatic%2Fbackup-dump.html&usg=AFQjCNFEAlw99QWQts00IU2J2iABBzi1Zg
+

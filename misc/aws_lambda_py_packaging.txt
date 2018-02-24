@@ -1,0 +1,8 @@
+mkdir src dist
+touch ./src/__init__.py
+add lambda_function.py to src/
+cp -rf src dist
+cp -rf venv/lib/python3.6/site-packages/* dist
+cd dist/
+zip -r /Users/relee/Documents/AWS/lambda/deployment_bundle.zip .
+src.lambda_function.lambda_handler

@@ -1,0 +1,117 @@
+[
+{
+    "environment" : "prod",
+    "namespace" : "*",
+    "properties" : [
+        {"name" : "jobTracker", "value" : "yarnRM"},
+        {"name" : "nameNode", "value" : "hdfs://nameservice1"},
+        {"name" : "hive2Url", "value" : "jdbc:hive2://hive.prod.avvo.com:10000/;retries=3"},
+        {"name" : "hive2Url2", "value" : "jdbc:hive2://hive.prod.avvo.com:10000/;retries=3"},
+        {"name" : "hcatMetastoreUri", "value" : "thrift://ip-172-16-8-134.jakotako.com:9083"},
+        {"name" : "principalRealm", "value" : "CORP.AVVO.COM"},
+        {"name" : "zookeeperClientPort", "value" : "2181"},
+        {"name" : "zookeeperQuorum", "value" : "ip-172-16-8-133.jakotako.com,ip-172-16-8-134.jakotako.com,ip-172-16-8-135.jakotako.com"},
+        {"name" : "kafkaBrokers", "value" : "kafka1wow.prod.avvo.com:9092,kafka2wow.prod.avvo.com:9092,kafka3wow.prod.avvo.com:9092,kafka4wow.prod.avvo.com:9092"},
+        {"name" : "kafkaZookeeper", "value" : "nn1wow.prod.avvo.com:2181"},
+        {"name" : "failureEmailAddress", "value" : "bdjobops@avvo.com"},
+        {"name" : "alertingEmailAddress", "value" : "data-nightly-alert-ec2@avvo.pagerduty.com"},
+        {"name" : "logsSrcPath", "value" : "/stage/weblogs/navi"},
+        {"name" : "logsFinalPath", "value" : "/data/src/weblogfiles_billboard"},
+        {"name" : "mysqlServer", "value" : "jdbc:mysql://slave.prod.avvo.com:3306"},
+        {"name" : "mysqlServer2", "value" : "jdbc:mysql://db2awl.prod.avvo.com:3307"},
+        {"name" : "mysqlOptionsFile", "value" : "sqoop_options_config_mysql"}
+    ]
+},
+{
+    "environment" : "test",
+    "namespace" : "*",
+    "properties" : [
+        {"name" : "jobTracker", "value" : "yarnRM"},
+        {"name" : "nameNode", "value" : "hdfs://eng-nameservice1"},
+        {"name" : "hive2Url", "value" : "jdbc:hive2://nn1test.prod.avvo.com:10000/;retries=3;"},
+        {"name" : "hive2Url2", "value" : "jdbc:hive2://nn2test.prod.avvo.com:10000/"},
+        {"name" : "hcatMetastoreUri", "value" : "thrift://nn1test.prod.avvo.com:9083"},
+        {"name" : "principalRealm", "value" : "CORP.AVVO.COM"},
+        {"name" : "zookeeperClientPort", "value" : "2181"},
+        {"name" : "zookeeperQuorum", "value" : "nn1test.prod.avvo.com"},
+        {"name" : "kafkaBrokers", "value" : "kafka1test.prod.avvo.com:9092"},
+        {"name" : "kafkaZookeeper", "value" : "nn1test.prod.avvo.com:2181"},
+        {"name" : "failureEmailAddress", "value" : "${user.name}@avvo.com"},
+        {"name" : "alertingEmailAddress", "value" : "${user.name}@avvo.com"},
+        {"name" : "logsSrcPath", "value" : "/stage/weblogs/presto_billboard"},
+        {"name" : "logsFinalPath", "value" : "/data/src/weblogfiles_billboard"},
+        {"name" : "mysqlServer", "value" : "jdbc:mysql://slave.prod.avvo.com:3306"},
+        {"name" : "mysqlServer2", "value" : "jdbc:mysql://db2awl.prod.avvo.com:3307"},
+        {"name" : "mysqlOptionsFile", "value" : "sqoop_options_config_mysql"}
+    ]
+},
+{
+    "environment" : "*",
+    "namespace" : "final",
+    "properties" : [
+        {"name" : "srcDatabase", "value" : "src"},
+        {"name" : "mgdSrcDatabase", "value" : "srcmgd"},
+        {"name" : "dmDatabase", "value" : "dm"},
+        {"name" : "revDatabase", "value" : "rev"},
+        {"name" : "stgDatabase", "value" : "stg"},
+        {"name" : "prsnDatabase", "value" : "prsn"},
+        {"name" : "srcDatabaseLocation", "value" : "/data/src"},
+        {"name" : "dmDatabaseLocation", "value" : "/data/dm"},
+        {"name" : "mgdSrcDatabaseLocation", "value" : "/data/srcmgd"},
+        {"name" : "revDatabaseLocation", "value" : "/data/rev"},
+        {"name" : "stgDatabaseLocation", "value" : "/data/stg"},
+        {"name" : "prsnDatabaseLocation", "value" : "/data/prsn"},
+        {"name" : "tmpLocation", "value" : "/tmp"},
+        {"name" : "oozieLauncherQueueName", "value" : "oozielauncher"}
+    ]
+},
+{
+    "environment" : "*",
+    "namespace" : "user",
+    "properties" : [
+        {"name" : "srcDatabase", "value" : "${user.name}_src"},
+        {"name" : "mgdSrcDatabase", "value" : "${user.name}_srcmgd"},
+        {"name" : "dmDatabase", "value" : "${user.name}_dm"},
+        {"name" : "srcDatabaseLocation", "value" : "/user/${user.name}/data/src"},
+        {"name" : "dmDatabaseLocation", "value" : "/user/${user.name}/data/dm"},
+        {"name" : "mgdSrcDatabaseLocation", "value" : "/user/${user.name}/data/srcmgd"},
+        {"name" : "tmpLocation", "value" : "/user/${user.name}/tmp"},
+        {"name" : "oozieLauncherQueueName", "value" : "default"},
+        {"name" : "failureEmailAddress", "value" : "${user.name}@avvo.com"},
+        {"name" : "alertingEmailAddress", "value" : "${user.name}@avvo.com"}
+    ]
+},
+{
+    "environment" : "test",
+    "namespace" : "test",
+    "properties" : [
+        {"name" : "srcDatabase", "value" : "test_src"},
+        {"name" : "mgdSrcDatabase", "value" : "test_srcmgd"},
+        {"name" : "dmDatabase", "value" : "test_dm"},
+        {"name" : "srcDatabaseLocation", "value" : "/data/test_src"},
+        {"name" : "dmDatabaseLocation", "value" : "/data/test_dm"},
+        {"name" : "mgdSrcDatabaseLocation", "value" : "/data/test_srcmgd"},
+        {"name" : "tmpLocation", "value" : "/tmp/test_tmp"},
+        {"name" : "oozieLauncherQueueName", "value" : "default"},
+        {"name" : "logsSrcPath", "value" : "/stage/test_weblogs/navi"},
+        {"name" : "logsFinalPath", "value" : "/data/test_src/weblogfiles_billboard"},
+        {"name" : "mysqlServer", "value" : "jdbc:mysql://sales-ops.jakotako.com:3306"},
+        {"name" : "mysqlServer2", "value" : "jdbc:mysql://sales-ops.jakotako.com:3306"},
+        {"name" : "mysqlOptionsFile", "value" : "sqoop_options_config_mysql_ec2"}
+    ]
+},
+{
+    "environment" : "*",
+    "namespace" : "*",
+    "properties" : [
+        {"name" : "oozie.use.system.libpath", "value" : "true"},
+        {"name" : "oozie.libpath", "value" : "/shared/lib/hive,/shared/lib/sqoop"},
+        {"name" : "defaultDataBase", "value" : "default"},
+        {"name" : "defaultDataBaseLocation", "value" : "/user/hive/warehouse"},
+        {"name" : "triggerLocation", "value" : "/trigger"},
+        {"name" : "hiveConfigPath", "value" : "/shared/config"},
+        {"name" : "statsDServerUrl", "value" : "fcon1.prod.wow.avvo.com"},
+        {"name" : "statsDServerPort", "value" : "8125"}
+    ]
+}
+]
