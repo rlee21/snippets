@@ -1,5 +1,5 @@
 """
-Write a function that returns the elements on odd positions (0 
+Write a function that returns the elements on odd positions (0
 based) in a list
 """
 # create empty list
@@ -13,7 +13,7 @@ def solution(input):
     length = len(input)
     for i in range(0, length):
         if i % 2 != 0:
-           output.append(input[i]) 
+           output.append(input[i])
     return output
 
 #print(solution([0,1,2,3,4,5]))
@@ -31,7 +31,7 @@ assert solution2([0,1,2,3,4,5]) == [1,3,5]
 assert solution2([1,-1,2,-2]) == [-1,-2]
 
 """
-Write a function that returns the cumulative sum of elements in a 
+Write a function that returns the cumulative sum of elements in a
 list
 """
 # create empty list
@@ -53,7 +53,7 @@ assert solution3([1,-1,3]) == [1,0,3]
 
 
 """
-Write a function that takes a number and returns a list of its 
+Write a function that takes a number and returns a list of its
 digits
 """
 # convert num to str
@@ -149,7 +149,7 @@ def solution8(input):
 
 
 """
-Given a sorted list if integers, remove any duplicates that occur more than twice. 
+Given a sorted list if integers, remove any duplicates that occur more than twice.
 """
 # def solution9(input):
 #     cnt = 1
@@ -164,32 +164,108 @@ Given a sorted list if integers, remove any duplicates that occur more than twic
 #
 #     return input
 
-# def solution9(input):
-#     output = []
-#     cnt = 1
-#     for i in range(len(input)-1):
-#         if input[i] == input[i+1]:
-#             cnt += 1
-#             if cnt > 2:
-#                 # input.remove(i)
-#                 cnt = 1
-#             else:
-#                 output.append(input[i])
-#         else:
-#             output.append(input[i])
-#             cnt = 1
-#
-#     return output
-#
-# print(solution9([1,1,1,2,2,3,4]))
+def solution9(input):
+    output = []
+    cnt = 0
+    for i in range(len(input)):
+        if input[i] == input[i-1]:
+            cnt += 1
+            if cnt > 1:
+                # input.remove(i)
+                cnt = 1
+            else:
+                output.append(input[i])
+        else:
+            output.append(input[i])
+            cnt = 1
 
+    return output
+
+# print(solution9([1,1]))
+# print(solution9([1,1,1,2,2,3,4]))
+# assert solution9([1,1]) == [1,1]
+# assert solution9([1,1,1,2,2,3,4]) == [1,1,2,2,3,4]
 
 """
 Given two lists, return a list containing common elements between both lists
 """
-def solution8(nums1, nums2):
+def solution10(nums1, nums2):
     nums1_set = set(nums1)
     nums2_set = set(nums2)
-    return list(nums1_set.difference(nums2_set))
+    #return list(nums1_set.difference(nums2_set))
+    return list(nums1_set.intersection(nums2_set))
 
-print(solution8([1,1,1,2,2,3,4], [0,2,9,8,7,3,5]))
+#print(solution10([1,1,1,2,2,3,4], [0,2,9,8,7,3,5]))
+#assert solution10([1,1,1,2,2,3,4], [0,2,9,8,7,3,5]) == [1, 4]
+assert solution10([1,1,1,2,2,3,4], [0,2,9,8,7,3,5]) == [2, 3]
+
+"""
+Given two lists, return a list containing common elements between both lists
+"""
+# init empty list
+# init empty set
+# walk list if i in set then append to new list
+
+#def solution11(nums1, nums2):
+#    output = []
+#    seen = set()
+
+
+#print(solution11([1,1,1,2,2,3,4], [0,2,9,8,7,3,5]))
+
+
+"""
+Write a function that returns the elements on odd positions (0 based) in a list
+"""
+def solution12(input):
+    return [input[i] for i in range(len(input)) if i % 2 != 0]
+
+assert solution12([0,1,2,3,4,5]) == [1,3,5]
+assert solution12([1,-1,2,-2]) == [-1,-2]
+
+"""
+Write a function that returns the cumulative sum of elements in a list
+"""
+def solution13(input):
+    output = []
+    sum = 0
+    for i in input:
+        sum += i
+        output.append(sum)
+    return output
+
+assert solution13([1,1,1]) == [1,2,3]
+assert solution13([1,-1,3]) == [1,0,3]
+
+
+"""
+Write a function that takes a number and returns a list of its digits
+"""
+def solution14(input):
+    s = str(input)
+    return [int(i) for i in list(s)]
+
+assert solution14(123) == [1,2,3]
+assert solution14(400) == [4,0,0]
+
+
+"""
+From: http://codingbat.com/prob/p126968
+Return the "centered" average of an array of ints, which we'll say is
+the mean average of the values, except ignoring the largest and
+smallest values in the array. If there are multiple copies of the
+smallest value, ignore just one copy, and likewise for the largest
+value. Use int division to produce the final average. You may assume
+that the array is length 3 or more.
+"""
+
+def solution15(input):
+    l_sort = sorted(input)
+    l_new = l_sort[1:-1]
+    return int(sum(l_new) / len(l_new))
+
+# print(solution15([1, 2, 3, 4, 100]))
+assert solution15([1, 2, 3, 4, 100]) == 3
+assert solution15([1, 1, 5, 5, 10, 8, 7]) == 5
+assert solution15([-10, -4, -2, -4, -2, 0]) == -3
+
