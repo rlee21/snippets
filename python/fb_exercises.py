@@ -269,3 +269,22 @@ assert solution15([1, 2, 3, 4, 100]) == 3
 assert solution15([1, 1, 5, 5, 10, 8, 7]) == 5
 assert solution15([-10, -4, -2, -4, -2, 0]) == -3
 
+
+def check_ip(input):
+    valid_nums = [i for i in range(0, 256)]
+    result = []
+    if not input:
+        return False
+    else:
+        ips = input.split('.')
+        for ip in ips:
+            if int(ip) in valid_nums:
+                result.append(int(ip))
+        if len(result) == 4:
+            return True
+        else:
+            return False
+
+assert check_ip('123.456.789.001') == False
+assert check_ip('123.001.001.001') == True
+assert check_ip('123.001.001.257') == False
