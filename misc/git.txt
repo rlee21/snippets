@@ -40,3 +40,7 @@ git push --force
 
 # checkout remote branch
 git checkout -b <local branch name> origin/<remote branch name>
+
+# reset to previous commit
+git reset --hard e724cf981626c8ed956c5f7edfd9a50bb7762323
+git push -f origin <branch_name>
