@@ -1,0 +1,2 @@
+order_id,customer_id,product_id,date_ordered,quantity
+123,901,1,2018-04-01,5
