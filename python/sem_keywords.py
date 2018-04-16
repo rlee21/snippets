@@ -1,4 +1,5 @@
 import csv
+import re
 import sys
 import time
 from collections import Counter
@@ -7,27 +8,28 @@ from datetime import datetime
 
 
 def get_questions(inputfile):
-    """ Read questions and group by pa, city and topic (i.e. key) """
+    """ Read questions, remove punctuation and group by pa, city and topic (i.e. key) """
     with open(inputfile, 'r', encoding='utf-8', errors='ignore') as f:
         reader = csv.reader(f, delimiter=',')
         next(reader)
         questions = defaultdict(list)
         for row in reader:
             question_id, created_at, pa, city, root_topic, topic, question_text = row
+            text = re.sub(r'[^\w\s]', '', question_text)
             key = pa + '|' + city + '|' + topic
-            questions[key].append(question_text)
+            questions[key].append(text)
     return questions
 
 
 def get_words(questions, stopwords):
     """
     Combine questions per key, split into words and filter obsolete words.
-    Note when combining questions 'xxx' is an alphanumeric delimiter later used
-    for filtering to avoid counting ngrams between different quesitons
+    Note: when combining questions ' xxx ' is delimiter later used for
+    filtering to avoid counting ngrams between different quesitons
     """
     with open(stopwords, 'r') as f:
         lines = f.readlines()
-        stop_words = [line.rstrip('\n') for line in lines]
+        stop_words = set([line.rstrip('\n') for line in lines])
     words = defaultdict(list)
     for key, text in questions.items():
         combine_ques = ' xxx '.join(text)
