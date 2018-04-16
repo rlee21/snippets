@@ -15,14 +15,14 @@ def compare_files(file1, file2):
     file2_not_file1 = file2_ids.difference(file1_ids)
     
     if len(file1_not_file2) > 0:
-           print("Records in file1 but not in file2: {}".format(file1_not_file2))
+           print("Records in {} but not in {}: {}".format(file1, file2, file1_not_file2))
     else:
-        print("All records in file1 are present in file2")
+        print("All records in {} are present in {}".format(file1, file2))
 
     if len(file2_not_file1) > 0:
-        print("Records in file2 but not in file1: {}".format(file2_not_file1))
+        print("Records in {} but not in {}: {}".format(file2, file1, file2_not_file1))
     else:
-        print("All records in file2 are present in file1")
+        print("All records in {} are present in {}".format(file2, file1))
 
 
 if __name__ == '__main__':
