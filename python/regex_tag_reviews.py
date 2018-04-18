@@ -4,10 +4,10 @@ import time
 from datetime import datetime
 
 
-def get_keywords(keywords_file):
+def get_keywords(KEYWORDS_FILE):
     """ Read keywords and specialties from csv file and return dict tuples """
     keywords = {}
-    with open(keywords_file, 'r') as f:
+    with open(KEYWORDS_FILE, 'r') as f:
         reader = csv.reader(f, delimiter=',')
         next(reader)
         for row in reader:
@@ -17,10 +17,10 @@ def get_keywords(keywords_file):
     return keywords
 
 
-def get_reviews(reviews_file):
+def get_reviews(REVIEWS_FILE):
     """ Read reviews and return a list """
     reviews = []
-    with open(reviews_file, 'r', encoding='utf-8', errors='ignore') as f:
+    with open(REVIEWS_FILE, 'r', encoding='utf-8', errors='ignore') as f:
         reader = csv.reader(f, delimiter=',')
         next(reader)
         for row in reader:
@@ -120,12 +120,12 @@ if __name__ == '__main__':
     start_time = time.time()
     current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
     outputfile = './results/results_' + current_time + '.csv'
-    keywords_file = 'specialty_keywords.csv'
-    reviews_file = 'reviews.csv'
+    KEYWORDS_FILE = 'specialty_keywords.csv'
+    REVIEWS_FILE = 'reviews.csv'
 
     # Function Calls
-    keywords = get_keywords(keywords_file)
-    reviews = get_reviews(reviews_file)
+    keywords = get_keywords(KEYWORDS_FILE)
+    reviews = get_reviews(REVIEWS_FILE)
     tagged = tag_reviews(keywords, reviews)
     write_tagged(tagged, outputfile)
 

@@ -1,9 +1,9 @@
 import csv
 
 
-def main(inputfile):
+def main(INPUTFILE):
     """ Read main targeted reviews file and write each state to it's own csv file """
-    with open(inputfile, 'r') as infile, \
+    with open(INPUTFILE, 'r') as infile, \
          open('./datafiles/ak_targeted_reviews.csv', 'w', encoding='utf-8', errors='ignore') as ak_file, \
          open('./datafiles/id_targeted_reviews.csv', 'w', encoding='utf-8', errors='ignore') as id_file, \
          open('./datafiles/ne_targeted_reviews.csv', 'w', encoding='utf-8', errors='ignore') as ne_file, \
@@ -96,6 +96,5 @@ def main(inputfile):
 
 
 if __name__ == '__main__':
-    inputfile = './results/targeted_reviews.csv'
-    # inputfile = './results/results_20180124_235519.csv'
-    main(inputfile)
+    INPUTFILE = './results/results_20180417_160558.csv'
+    main(INPUTFILE)
