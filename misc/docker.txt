@@ -1,0 +1,21 @@
+docker ps -as
+docker images -a
+docker image ls
+docker-compose up
+docker --version
+docker info
+docker image rm 1380534e9bcf
+docker rmi 23511f9e694c 40c540045c4d
+docker inspect 7df8faa6c830
+docker rm 23511f9e694c 40c540045c4d
+docker run hello-world
+docker stop 40c540045c4d 23511f9e694c
+docker-compose --version
+docker-compose ps
+docker-compose stop
+docker-machine --version
+docker-machine ls
+docker-machine rm default
+docker-machine start
+docker-machine status
+docker-machine stop
