@@ -1,3 +1,7 @@
+#1st line contain integer denoting number of elements in array
+#each line i of n subsequent line where 0<=i<n contains integer describing n
+#next line contains integer k, the element that needs to be searched
+
 # import json
 # from pprint import pprint
 
