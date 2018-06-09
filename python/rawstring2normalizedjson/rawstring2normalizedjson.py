@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 import time
 from datetime import datetime
@@ -45,16 +46,25 @@ def RawStringToNormalizedJson(rawString):
             output.append(record)
             return json.dumps(output, sort_keys=True)
         else:
-            # TODO: write (append) raw string to log file with datetime
-            return 'Employee information not present in input'
+            return logging.warning("String not processed!: json keys 'employee_name' and 'employees' were not present in raw string|{}".format(rawString))
     except Exception as e:
-        return 'Error malformed input: {} \n '.format(e)
-        raise e
+        logging.warning('String not processed!: raw string did not contain json object causing {}|{}'.format(e, rawString))
+        pass
+
 
 if __name__ == '__main__':
+    log_format = '%(asctime)s|%(levelname)s|%(message)s'
+    logging.basicConfig(
+        level=logging.WARNING,
+        format=log_format,
+        filename='rawstring2normalizedjson.log'
+    )
     rawString1 = """{"employee_name": "Adam Deringer", "company_name":"PayScale, Inc.", "started_at": "2010-05-21T17:00:00.000Z"}"""
     rawString2 = """{"company_name":"PayScale, Inc.", "employees": [{"employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z"}]}"""
     rawString3 = """[{"company_name":"PayScale, Inc.","employee_name":"Adam Deringer","started_at":"2019-05-21T17:00:00.000Z"}]a"""
+    rawString4 = 'foo'
+    rawString5 = """{"name": "Adam Deringer", "company_name":"PayScale, Inc.", "started_at": "2010-05-21T17:00:00.000Z"}"""
+
     #print(RawStringToNormalizedJson(rawString1))
     #print(RawStringToNormalizedJson(rawString2))
     #print(RawStringToNormalizedJson(rawString3))
@@ -62,3 +72,5 @@ if __name__ == '__main__':
     assert RawStringToNormalizedJson(rawString1) == """[{"company_name": "PayScale, Inc.", "employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z", "started_at_valid": true}]"""
     assert RawStringToNormalizedJson(rawString2) == """[{"company_name": "PayScale, Inc.", "employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z", "started_at_valid": true}]"""
     assert RawStringToNormalizedJson(rawString3) == """[{"company_name": "PayScale, Inc.", "employee_name": "Adam Deringer", "started_at": "2019-05-21T17:00:00.000Z", "started_at_valid": false}]"""
+    RawStringToNormalizedJson(rawString4)
+    RawStringToNormalizedJson(rawString5)
