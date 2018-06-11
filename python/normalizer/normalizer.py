@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 
-def normalize(rawString):
+def normalize(raw_string):
     """
     Parse two types of json from raw string and normalize into one json object.
     Also, check to see if started_at is in the past
@@ -16,7 +16,7 @@ def normalize(rawString):
     output = []
     curr_datetime = datetime.now()
     try:
-        for i in re.finditer(r'\{.*\}', rawString):
+        for i in re.finditer(r'\{.*\}', raw_string):
             data = json.loads(i.group())
         keys = set(data.keys())
         if 'employee_name' in keys:
@@ -46,9 +46,9 @@ def normalize(rawString):
             output.append(record)
             return json.dumps(output, sort_keys=True)
         else:
-            return logging.warning("String not processed!: json keys 'employee_name' and 'employees' were not present in raw string|{}".format(rawString))
+            return logging.warning("String not processed!: json keys 'employee_name' and 'employees' were not present in raw string|{}".format(raw_string))
     except Exception as e:
-        logging.warning('String not processed!: raw string did not contain json object causing {}|{}'.format(e, rawString))
+        logging.warning('String not processed!: raw string did not contain json object causing {}|{}'.format(e, raw_string))
         pass
 
 
@@ -59,18 +59,21 @@ if __name__ == '__main__':
         format=log_format,
         filename='log_normalizer.log'
     )
-    rawString1 = """{"employee_name": "Adam Deringer", "company_name":"PayScale, Inc.", "started_at": "2010-05-21T17:00:00.000Z"}"""
-    rawString2 = """{"company_name":"PayScale, Inc.", "employees": [{"employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z"}]}"""
-    rawString3 = """[{"company_name":"PayScale, Inc.","employee_name":"Adam Deringer","started_at":"2019-05-21T17:00:00.000Z"}]a"""
-    rawString4 = 'foo'
-    rawString5 = """{"name": "Adam Deringer", "company_name":"PayScale, Inc.", "started_at": "2010-05-21T17:00:00.000Z"}"""
+    raw_string1 = """{"employee_name": "Adam Deringer", "company_name":"PayScale, Inc.", "started_at": "2010-05-21T17:00:00.000Z"}"""
+    raw_string2 = """{"company_name":"PayScale, Inc.", "employees": [{"employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z"}]}"""
+    raw_string3 = """[{"company_name":"PayScale, Inc.","employee_name":"Adam Deringer","started_at":"2019-05-21T17:00:00.000Z"}]a"""
+    raw_string4 = 'foo'
+    raw_string5 = """{"name": "Adam Deringer", "company_name":"PayScale, Inc.", "started_at": "2010-05-21T17:00:00.000Z"}"""
 
-    #print(RawStringToNormalizedJson(rawString1))
-    #print(RawStringToNormalizedJson(rawString2))
-    #print(RawStringToNormalizedJson(rawString3))
+    #print(normalize(raw_string1))
+    #print(normalize(raw_string2))
+    #print(normalize(raw_string3))
 
-    assert RawStringToNormalizedJson(rawString1) == """[{"company_name": "PayScale, Inc.", "employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z", "started_at_valid": true}]"""
-    assert RawStringToNormalizedJson(rawString2) == """[{"company_name": "PayScale, Inc.", "employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z", "started_at_valid": true}]"""
-    assert RawStringToNormalizedJson(rawString3) == """[{"company_name": "PayScale, Inc.", "employee_name": "Adam Deringer", "started_at": "2019-05-21T17:00:00.000Z", "started_at_valid": false}]"""
-    RawStringToNormalizedJson(rawString4)
-    RawStringToNormalizedJson(rawString5)
+    #assert normalize(raw_string1) == """[{"company_name": "PayScale, Inc.", "employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z", "started_at_valid": true}]"""
+    #assert normalize(raw_string2) == """[{"company_name": "PayScale, Inc.", "employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z", "started_at_valid": true}]"""
+    #assert normalize(raw_string3) == """[{"company_name": "PayScale, Inc.", "employee_name": "Adam Deringer", "started_at": "2019-05-21T17:00:00.000Z", "started_at_valid": false}]"""
+    normalize(raw_string1)
+    normalize(raw_string2)
+    normalize(raw_string3)
+    normalize(raw_string4)
+    normalize(raw_string5)
