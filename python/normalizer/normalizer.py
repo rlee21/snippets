@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 
-def RawStringToNormalizedJson(rawString):
+def normalize(rawString):
     """
     Parse two types of json from raw string and normalize into one json object.
     Also, check to see if started_at is in the past
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     logging.basicConfig(
         level=logging.WARNING,
         format=log_format,
-        filename='rawstring2normalizedjson.log'
+        filename='log_normalizer.log'
     )
     rawString1 = """{"employee_name": "Adam Deringer", "company_name":"PayScale, Inc.", "started_at": "2010-05-21T17:00:00.000Z"}"""
     rawString2 = """{"company_name":"PayScale, Inc.", "employees": [{"employee_name": "Adam Deringer", "started_at": "2010-05-21T17:00:00.000Z"}]}"""
