@@ -1,3 +1,10 @@
+# submit the following files:
+exercise_1.py
+realself_most_recent_100_tweets.json
+exercise_2.sql
+exercise_3.txt
+requirements.txt
+
 1)
 Write a single python script (preferably python 3) that does two things:
 Uses the Twitter user timeline API and writes @realself’s most recent 100 tweets to a newline-delimited JSON file in the current working directory where each line is a JSON dict containing the details for a single tweet.

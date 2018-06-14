@@ -1,14 +1,7 @@
 """
-Dependencies (i.e. requirements.txt)
-    certifi==2018.4.16
-    chardet==3.0.4
-    future==0.16.0
-    idna==2.7
-    oauthlib==2.1.0
-    python-twitter==3.4.2
-    requests==2.19.0
-    requests-oauthlib==1.0.0
-    urllib3==1.23
+This script was developed using Python3.6 and uses the python-twitter library to
+integrate with the Twitter API. See requirements.txt for complete list of dependencies.
+Credentials used to authenticate with the Twitter API were stored as environmental variables.
 """
 
 import json
