@@ -1,0 +1,28 @@
+# Describe likely joins for tables
+* DR inner join to LOCATION where dr.primary_location_id = location.id because every doctor should have a primary location
+* DR left outer join to REVIEW where dr.id = review.dr_id because not every doctor will have a review and so you want to avoid mistakenly filtering doctor records by using an inner join
+* DR left outer join to VIDEO where dr.id = video.dr_id because not every doctor has a video and so you want to avoid mistakenly filtering doctor records by using an inner join
+* DR inner join to CONSULT_REQUESTS where dr.id = consult_requests.dr_id because every consultation request should have a corresponding doctor
+* LOCATION inner join to LOCATION_BUNDLE where location.location_bundle_id = location_bundle.id because every location should have a corresponding location bundle
+* LOCATION inner join to USER where location.id = user.location_id because every user should have a location
+* REVIEW inner join to USER where review.user_id = user.id because every review should have a user that generated the review
+* CONSULT_REQUESTS inner join to USER where consult_requests.user_id = user.id
+* VIDEO left outer join to VIDEO_COMMENTS where video.id = video_comments.video_id because not every video will have comments and so you want to avoid mistakenly filtering video records by using an inner join 
+* VIDEO_COMMENTS inner join to USER where video_comments.user_id = user.id because every video comment should have a user that posted the comment
+
+
+# Insightful dimensions and measures for the business
+* Dimensions
+    - doctor attributes like Primary specialty, Address, City, State, Zip, Location Bundle Name
+    - deriving experience by substracting current date from active since date and then converting it to years by dividing by 365.25
+    - location
+    - user
+    - review star rating
+    - Date
+* Measures
+    - number of doctors
+    - number of users
+    - number of reviews
+    - number of videos
+    - number of consultation requests
+    - number of video comments 
