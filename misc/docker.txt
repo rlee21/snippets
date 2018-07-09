@@ -1,8 +1,21 @@
+docker build .
+docker build -t my-ubuntu-image .
+docker run my-ubuntu-image
+docker run -p 5001:5000 my-ubuntu-image
+docker run -d -p 5001:5000 my-ubuntu-image
+docker run -it --name my-linux-container ubuntu bash
+docker run -it --name my-linux-container --rm -v /data:/opt/data ubuntu bash
+docker logs my-linux-container
+docker stop my-linux-container
 docker ps -as
+docker rm $(docker ps -a -f status=exited -q)
 docker images -a
 docker image ls
+docker container ls
 docker-compose up
+docker-compose down
 docker --version
+docker pull image-name
 docker info
 docker image rm 1380534e9bcf
 docker rmi 23511f9e694c 40c540045c4d
