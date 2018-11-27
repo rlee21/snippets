@@ -1,13 +1,13 @@
 #puts "Hello world!"
-numbers = [1, 2, 3, 4, 5]
+# numbers = [1, 2, 3, 4, 5]
 
 #for number in numbers
 #puts number
 #end
 
-numbers.each do |number|
-puts number
-end
+# numbers.each do |number|
+# puts number
+# end
 
 # foo = []
 # i = 0
@@ -27,3 +27,18 @@ end
 
 # foo = Range.new(0, 5)
 #   puts foo
+#
+
+class Hello
+
+def initialize(name)
+  @name = name
+end
+
+def greeting
+  puts "Hello #{@name}"
+end
+
+h = Hello.new("Rob")
+h.greeting
+end
