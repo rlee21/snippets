@@ -56,7 +56,7 @@ function refreshData() {
     }
     sheet.getRange(2, 1, rows.length, headers.length).setValues(data);
 
-    Logger.log('Results spreadsheet created: %s',
+    Logger.log('Results have been written to the data worksheet: %s',
         spreadsheet.getUrl());
   } else {
     Logger.log('No rows returned.');
