@@ -2,6 +2,7 @@ docker build .
 docker build -t my-ubuntu-image .
 docker run my-ubuntu-image
 docker run -p 5001:5000 my-ubuntu-image
+docker exec -it 2061bda40645 sh -c /bin/bash
 docker run -d -p 5001:5000 my-ubuntu-image
 docker run -it --name my-linux-container ubuntu bash
 docker run -it --name my-linux-container --rm -v /data:/opt/data ubuntu bash
