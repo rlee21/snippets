@@ -13,8 +13,10 @@ adjacency_list = {
   13 => [12]
 }
 
-curr_node = adjacency_list.keys.sort[0]
-end_node = adjacency_list.keys.sort[-1]
+# curr_node = adjacency_list.keys.sort[0]
+# end_node = adjacency_list.keys.sort[-1]
+curr_node = 0
+end_node = 13
 step = 1
 while true do
   next_node = adjacency_list[curr_node].max
