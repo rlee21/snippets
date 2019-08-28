@@ -16,7 +16,7 @@ git push origin master
 
 # deleting remote branch
 git branch -d branch_name
-git push origin --delete <branch_name>
+git push origin -d <branch_name>
 
 # stashing
 git stash list
@@ -44,3 +44,7 @@ git checkout -b <local branch name> origin/<remote branch name>
 # reset to previous commit
 git reset --hard e724cf981626c8ed956c5f7edfd9a50bb7762323
 git push -f origin <branch_name>
+
+# discard unstaged changes
+git clean -df
+git checkout -- .
