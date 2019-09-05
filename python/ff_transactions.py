@@ -44,7 +44,6 @@ def compare_transactions(current, previous, filename):
     prev = { previous }
     diff = curr.difference(prev)
     if diff:
-        new_transaction = current.split('-')
         print("NEW TRANSACTION: {}".format(current))
         write_transaction(current, filename)
         # TODO: send email or slack notification
