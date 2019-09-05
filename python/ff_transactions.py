@@ -1,4 +1,7 @@
 from yahoo_oauth import OAuth2
+import os
+import smtplib
+import ssl
 
 
 def yahoo_client(oauth_file):
@@ -37,6 +40,19 @@ def write_transaction(filename, current):
     with open(filename, 'w') as fh:
         fh.write(current)
 
+def send_email(transaction):
+    """ send email notification of new transaction """
+    SENDER_EMAIL = os.getenv('FF_EMAIL')
+    RECEIVER_EMAIL = os.getenv('FF_EMAIL')
+    PASSWD = os.getenv('FF_PW')
+    new_transaction = transaction.encode('utf-8')
+    message = 'Subject: FF ALERT: {transaction}'.format(transaction=new_transaction)
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
+        server.login(SENDER_EMAIL, PASSWD)
+        server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, message)
+    print('Email has been sent')
+
 def compare_transactions(current, previous, filename):
     """ convert current and previous transactions to sets,
         compare and write current to file if there's a difference  """
@@ -45,8 +61,8 @@ def compare_transactions(current, previous, filename):
     diff = curr.difference(prev)
     if diff:
         print("NEW TRANSACTION: {}".format(current))
-        write_transaction(current, filename)
-        # TODO: send email or slack notification
+        write_transaction(filename, current)
+        send_email(current)
     else:
         print('No new transaction')
 
