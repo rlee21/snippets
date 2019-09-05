@@ -32,28 +32,33 @@ def previous_transaction(filename):
 
     return transaction
 
+def write_transaction(filename, current):
+    """ write current transaction to file """
+    with open(filename, 'w') as fh:
+        fh.write(current)
+
 def compare_transactions(current, previous, filename):
     """ convert current and previous transactions to sets,
-        compare and write current to file if there is a difference  """
+        compare and write current to file if there's a difference  """
     curr = { current }
     prev = { previous }
-    if curr.difference(prev):
+    diff = curr.difference(prev)
+    if diff:
         new_transaction = current.split('-')
-        # print("There's a new transaction!! => {}".format(''.join(new_transaction)))
-        print("There's a new transaction!! => {}".format(current))
-        with open(filename, 'w') as fh:
-            fh.write(current)
+        print("NEW TRANSACTION: {}".format(current))
+        write_transaction(current, filename)
         # TODO: send email or slack notification
     else:
         print('No new transaction')
 
 def main():
-    # set vars
+    # setup
     OAUTH_FILE = 'oauth2.json'
-    TRANSACTIONS_ENDPOINT = 'https://fantasysports.yahooapis.com/fantasy/v2/league/nfl.l.738705/transactions'
+    LEAGUE_ID = '738705'
+    TRANSACTIONS_ENDPOINT = 'https://fantasysports.yahooapis.com/fantasy/v2/league/nfl.l.{league_key}/transactions'.format(league_key=LEAGUE_ID)
     TRANSACTION_FILE = 'last_transaction.txt'
 
-    # script execution
+    # execution
     client = yahoo_client(OAUTH_FILE)
     transactions = get_transactions(client, TRANSACTIONS_ENDPOINT)
     current = latest_transaction(transactions)
