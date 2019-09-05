@@ -3,8 +3,8 @@ import ssl
 
 PORT = 465
 SMTP_SERVER = 'smtp.gmail.com'
-SENDER_EMAIL = 'rob206lee@gmail.com'  # Enter your address
-RECEIVER_EMAIL = 'rob206lee@gmail.com'  # Enter receiver address
+SENDER_EMAIL = 'example@gmail.com'  # Enter your address
+RECEIVER_EMAIL = 'example@gmail.com'  # Enter receiver address
 password = input('Type your password and press enter: ')
 message = """\
 Subject: test email
