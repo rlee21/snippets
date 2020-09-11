@@ -22,8 +22,10 @@ def current_transactions(transactions):
     data = transactions['fantasy_content']['league'][1]['transactions']
     players = []
     for i in range(10):
-        player = data[str(i)]['transaction'][1]['players']['0']['player'][0][2]['name']['full']
-        players.append(player + '\n')
+        if str(i) in data:
+            if data[str(i)]['transaction'][1]:
+                player = data[str(i)]['transaction'][1]['players']['0']['player'][0][2]['name']['full']
+                players.append(player + '\n')
 
     return players
 
@@ -57,7 +59,7 @@ def compare_transactions(current, previous, filename):
 def main():
     # setup
     OAUTH_FILE = '/Users/relee/code/sandbox/ff/oauth2.json'
-    LEAGUE_ID = '738705'
+    LEAGUE_ID = '726110'
     TRANSACTIONS_ENDPOINT = 'https://fantasysports.yahooapis.com/fantasy/v2/league/nfl.l.{league_key}/transactions'.format(league_key=LEAGUE_ID)
     TRANSACTION_FILE = '/Users/relee/code/sandbox/ff/current_transactions.txt'
 
