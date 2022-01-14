@@ -48,3 +48,110 @@ git push -f origin <branch_name>
 # discard unstaged changes
 git clean -df
 git checkout -- .
+
+# best practices
+Pre-work Setup
+
+When working on a ticket, we should prepare our git branches using the following guidelines:
+
+    Prefix the branch name with your initials and ticket number, and then add an optional small summary
+        EX: dm-xxx-218_remove_kafka_legacy_code
+        Starting with your initials makes it easy to find your branches in a repo
+        Having the ticket id makes it easy to trace why that branch was created (specially if left unmerged for future references).
+        The additional optional summary might also help provide context and intent for the branch
+
+During development
+
+    Commit and push often
+        Commits are cheap and easy, and can save us a lot of extra work
+            Try to do it at least once or twice a day
+        Avoid losing important code changes
+        Easily revert to a "working state"
+        Easily recover work from a hardware failure or file corruption
+
+Preparing for merge
+
+After working on a ticket, we should prepare our commits before merging them in.
+
+    Squash all of the branch's commits into the minimum relevant commits (ideally 1 commit per ticket).
+        This makes reverts/rollbacks much easier
+        This also makes history a lot cleaner and easier to read when debugging
+    Commit messages should start with the ticket id, followed by a clear message indicating what the commit is about or what was done.
+        This makes it easier to trace back a commit to the ticket history and comments
+        This also makes history a lot easier to read when debugging or researching
+
+
+Current Example:
+
+Example of not following these guidelines:
+
+Add New tag on QR code entry-points
+Merge branch 'zz-zzzz' into 'master' 
+Merge branch 'zz-zzzz' of git.xxx.com:xxxx-App-Dev/xxx into zz-zzzz
+remove more references to job purging
+remove cdn purge jobs
+start removing purging calls
+Merge branch 'master' into zz-zzzz
+Merge branch 'dm-xxx-216' into 'master'
+Remove CDN purging from xxx_common
+remove more references to job purging
+remove cdn purge jobs
+start removing purging calls
+
+
+
+With originating branches:
+
+
+b1: XX- 7452 Add New tag on QR code entry-points
+b2: Merge branch 'zz-zzzz' into 'master' 
+b2: Merge branch 'zz-zzzz' of git.xxx.com:xxxx-App-Dev/xxx into zz-zzzz
+b2: remove more references to job purging
+b2: remove cdn purge jobs
+b2: start removing purging calls
+b2: Merge branch 'master' into zz-zzzz
+b3: Merge branch 'dm-xxx-216' into 'master' 
+b3: XXXXX-216 Remove CDN purging from xxx_common
+b2: remove more references to job purging
+b2: remove cdn purge jobs
+b2: start removing purging calls
+
+
+Problems:
+
+    Intertwined commits after merge (non-linear history)
+    Unclear ticket context for commits (specially as time goes by)
+    Non-trivial revert
+
+
+Better linear history:
+
+b1: XX- 7452 Add New tag on QR code entry-points
+b2: Merge branch 'zz-zzzz' into 'master' 
+b2: ZZ-ZZZZ Remove cdn purge jobs and references
+b3: Merge branch 'dm-xxx-216' into 'master' 
+b3: XXXXX-216 Remove CDN purging from xxx_common
+How to
+Pre-ticket work
+
+    git checkout master
+    git pull
+    git checkout -b <initials>-<ticket-id>
+
+Merge preparation
+
+Note:  If you feel unsure about squashing, or want a backup in case something goes wrong, create a backup branch before proceeding (git checkout -b <backup branch name>).
+
+    git fetch --all
+    git rebase -i origin/master
+        Explanation: -i means interactive
+            This will open an editor showing the commits in your branch that differ from master and will be picked.
+            Change pick to squash on all those commits that must be squashed (you must leave at least the top commit as pick, so that the other commits are squashed into that).
+            Once saved, git will proceed to pick and squash according to the indications. 
+                If a conflict would come up, git will let you know so you may resolve them. 
+                Once resolved, use git rebase --continue to continue with the squashes.
+            After the operation is completed, a new editor will be shown for you to edit/set the new squashed commit's message.
+                Please add in all the relevant ticket ids and descriptions to make the commit message clear and easily traceable as indicated in the guidelines
+            When the operation is completed, you will need to force push your branch to overwrite the remote with git push -f
+
+Tip: Using rebase to keep up with master also helps to keep a clean and linear history of commits
